@@ -14,7 +14,7 @@ const s3 = new AWS({
 
 archivoCtrl.guardarBucket = async (req, res) => {
 
-  const params = { Bucket: bucket, Key: 'prueba.txt', Body: 'Hola, esto es una prueba para mandar datos al bucket' };
+  const params = { Bucket: bucket, Key: `${req.params.id}/${req.file.originalname}`, Body: req.file.path };
 
   s3.upload(params, function(err, data) {
     if (err) {
