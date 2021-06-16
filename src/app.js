@@ -11,5 +11,6 @@ app.use(express.json());
 
 //APIS
 app.use('/api/usuario', require('./routes/routes_usuario.js'));
+app.use('/api/archivo', require('./routes/routes_archivo.js'));
 
 module.exports = app;
