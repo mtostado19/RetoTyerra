@@ -8,7 +8,7 @@ usuarioCtrl.getUsers = async (req, res) => {
 };
 
 usuarioCtrl.createUser = async (req, res) => {
-  let { nombre, apellidoPat, apellidoMat, correo, usuario, contraseña } =
+  const { nombre, apellidoPat, apellidoMat, correo, usuario, contraseña } =
     req.body;
   const nuevoUsuario = new ModeloUsuario({
     nombre,

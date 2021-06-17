@@ -3,6 +3,7 @@ const archivoCtrl = {};
 const ModeloArchivo = require("../models/model_archivo.js");
 
 const AWS = require('aws-sdk').S3;
+const fs = require('fs')
 
 const id = process.env.ID_S3;
 const secret = process.env.SECRET_S3;
@@ -14,11 +15,24 @@ const s3 = new AWS({
     secretAccessKey: secret,
 });
 
+
+archivoCtrl.abrirArchivo = async (req, res) => {
+  const keyName = `${req.params.id}/${req.body.keyName}`;
+
+  const downloadParams = { Key: keyName, Bucket: bucket };
+
+  const x = s3.getObject(downloadParams).createReadStream()
+
+  x.pipe(res);
+};
+
 archivoCtrl.guardarBucket = async (req, res) => {
 
-  let keyName = `${req.params.id}/${req.file.originalname}`
+  const keyName = `${req.params.id}/${req.file.originalname}`
 
-  const params = { Bucket: bucket, Key: keyName, Body: req.file.path };
+  const fileStream = fs.createReadStream(req.file.path)
+
+  const params = { Bucket: bucket, Key: keyName, Body: fileStream };
 
   s3.upload(params, function(err, data) {
     if (err) {
@@ -33,7 +47,6 @@ archivoCtrl.guardarBucket = async (req, res) => {
   });
 
   await nuevoArchivo.save();
-
 
   res.json({ message: 'Guardado con exito! '});
 };
