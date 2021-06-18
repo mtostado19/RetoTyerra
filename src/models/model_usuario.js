@@ -23,11 +23,7 @@ const usuarioSchema = new Schema({
   },
   contraseña: {
     type: String,
-    requiered: true,
-  },
-  archivo: {
-    type: Array,
-    requiered: false,
+    required: true,
   },
 });
 

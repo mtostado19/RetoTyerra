@@ -15,6 +15,15 @@ const s3 = new AWS({
     secretAccessKey: secret,
 });
 
+archivoCtrl.getArchivo = async (req, res) => {
+  const archivos = await ModeloArchivo.find( {_id: req.body.nombre} );
+  res.json(archivos);
+};
+
+archivoCtrl.getArchivos = async (req, res) => {
+  const archivos = await ModeloArchivo.find( {usuarioId: req.params.id} );
+  res.json(archivos);
+};
 
 archivoCtrl.abrirArchivo = async (req, res) => {
 
@@ -51,6 +60,24 @@ archivoCtrl.guardarBucket = async (req, res) => {
   await nuevoArchivo.save();
 
   res.json({ message: 'Guardado con exito! '});
+};
+
+archivoCtrl.borrarArchivo = async (req, res) => {
+
+  const keyName = `${req.params.id}/${req.body.nombreOriginal}`;
+
+  const params = { Bucket: bucket, Key: keyName };
+
+  s3.deleteObject(params, function(err, data) {
+    if (err) { 
+      console.log(err)
+      res.json({message: 'Ocurrio un error en el programa:'}) 
+    }
+  });
+
+  await ModeloArchivo.findOneAndDelete( {key: keyName} );
+
+  res.json( {message: 'Archivo eliminado'} )
 };
 
 
