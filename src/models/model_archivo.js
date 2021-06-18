@@ -13,6 +13,10 @@ const archivoSchema = new Schema({
     type: String,
     required: true,
   },
+  nombreOriginal: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = model("archivos", archivoSchema);

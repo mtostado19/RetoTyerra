@@ -3,7 +3,8 @@ const { Router } = require('express');
 const router = Router();
 const multer  = require('multer');
 
-const upload = multer({ dest: 'uploads/' });
+var storage = multer.memoryStorage(); 
+const upload = multer({ storage });
 
 const {
   abrirArchivo, guardarBucket,
