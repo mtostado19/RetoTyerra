@@ -42,7 +42,7 @@ archivoCtrl.guardarBucket = async (req, res) => {
 
   const { buffer, originalname, mimetype } = req.file;
 
-  const keyName = `${req.params.id}/${originalname}`;
+  const keyName = `${req.params.id}/${Date.now()}${originalname}`;
 
   const params = { Bucket: bucket, Key: keyName, Body: buffer };
 
@@ -64,7 +64,7 @@ archivoCtrl.guardarBucket = async (req, res) => {
 
 archivoCtrl.borrarArchivo = async (req, res) => {
 
-  const keyName = `${req.params.id}/${req.body.nombreOriginal}${Date.now()}`;
+  const keyName = `${req.params.id}/${req.body.nombreOriginal}`;
 
   const params = { Bucket: bucket, Key: keyName };
 
