@@ -3,7 +3,7 @@ const { Router } = require('express');
 const router = Router();
 const multer  = require('multer');
 
-var storage = multer.memoryStorage(); 
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const {

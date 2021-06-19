@@ -64,7 +64,7 @@ archivoCtrl.guardarBucket = async (req, res) => {
 
 archivoCtrl.borrarArchivo = async (req, res) => {
 
-  const keyName = `${req.params.id}/${req.body.nombreOriginal}`;
+  const keyName = `${req.params.id}/${req.body.nombreOriginal}${Date.now()}`;
 
   const params = { Bucket: bucket, Key: keyName };
 

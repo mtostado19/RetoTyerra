@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const usuarioSchema = new Schema({
   nombre: {
@@ -27,4 +27,4 @@ const usuarioSchema = new Schema({
   },
 });
 
-module.exports = model("usuarios", usuarioSchema);
+module.exports = model('usuarios', usuarioSchema);
