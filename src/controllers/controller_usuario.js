@@ -3,6 +3,7 @@ const usuarioCtrl = {};
 const bcrypt = require('bcrypt');
 
 const ModeloUsuario = require('../models/model_usuario.js');
+const ModeloArchivo = require('../models/model_archivo.js');
 
 usuarioCtrl.getUsers = async (req, res) => {
   const usuario = await ModeloUsuario.find();
@@ -60,6 +61,11 @@ usuarioCtrl.updateUser = async (req, res) => {
 
 usuarioCtrl.deleteUser = async (req, res) => {
   await ModeloUsuario.findOneAndRemove( { _id: req.params.id } );
+
+  if (await ModeloArchivo.exists( {usuarioId: req.params.id} )) {
+    console.log('El usuario tenia archivos guardados');
+    await ModeloArchivo.deleteMany( {usuarioId: req.params.id} );
+  }
   res.json({ message: 'Usuario Eliminado' })
 }
 
