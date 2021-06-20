@@ -25,6 +25,11 @@ archivoCtrl.getArchivos = async (req, res) => {
   res.json(archivos);
 };
 
+archivoCtrl.patchArchivos = async (req, res) => {
+  await ModeloArchivo.findOneAndUpdate( {_id: req.params.id}, req.body.nombreOriginal );
+  req.json( {message: 'Nombre del archivo actualizado'} );
+};
+
 archivoCtrl.abrirArchivo = async (req, res) => {
 
   const keyName = await ModeloArchivo.find( {nombreOriginal: req.body.nombreOriginal, usuarioId: req.params.id} );
@@ -64,7 +69,7 @@ archivoCtrl.guardarBucket = async (req, res) => {
 
 archivoCtrl.borrarArchivo = async (req, res) => {
 
-  const keyName = `${req.params.id}/${req.body.nombreOriginal}`;
+  const keyName = req.body.key;
 
   const params = { Bucket: bucket, Key: keyName };
 

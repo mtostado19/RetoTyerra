@@ -41,21 +41,18 @@ usuarioCtrl.createUser = async (req, res) => {
 usuarioCtrl.updateUser = async (req, res) => {
   const { nombre, apellidoPat, apellidoMat, correo, usuario, contraseña } =
     req.body;
+
+  const usuarioAntiguo = await ModeloUsuario.find( {_id: req.params.id} );
+
+  if (await ModeloUsuario.exists( { usuario } ) && usuarioAntiguo[0].usuario !== usuario) { 
+    return res.json({ message: 'El usuario esta ocupado'}) 
+  };
+  if (await ModeloUsuario.exists( { correo } ) && usuarioAntiguo[0].correo !== correo) {
+    return res.json({ message: 'El correo esta ocupado'})
+  };
   
-  if (await ModeloUsuario.exists( { usuario } )) { return res.json({ message: 'El usuario esta ocupado'}) };
-  if (await ModeloUsuario.exists( { correo } )) { return res.json({ message: 'El correo esta ocupado'}) };
-
-  const nuevoUsuario = new ModeloUsuario({
-    nombre,
-    apellidoPat,
-    apellidoMat,
-    correo,
-    usuario,
-    contraseña,
-  });
-
   const salt = await bcrypt.genSalt(10);
-  nuevoUsuario.contraseña = await bcrypt.hash(contraseña, salt);
+  req.body.contraseña = await bcrypt.hash(contraseña, salt);
 
   await ModeloUsuario.findOneAndUpdate({ _id: req.params.id }, req.body)
   res.json( {message: 'El usuario fue actualizado correctamente'} );
