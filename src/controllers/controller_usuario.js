@@ -2,6 +2,18 @@ const usuarioCtrl = {};
 
 const bcrypt = require('bcrypt');
 
+const AWS = require('aws-sdk').S3;
+
+const id = process.env.ID_S3;
+const secret = process.env.SECRET_S3;
+
+const bucket = process.env.BUCKET_NOMBRE;
+
+const s3 = new AWS({
+    accessKeyId: id,
+    secretAccessKey: secret,
+});
+
 const ModeloUsuario = require('../models/model_usuario.js');
 const ModeloArchivo = require('../models/model_archivo.js');
 
@@ -43,6 +55,8 @@ usuarioCtrl.updateUser = async (req, res) => {
   const { nombre, apellidoPat, apellidoMat, correo, usuario, contraseña } =
     req.body;
 
+  console.log(req.body);
+
   const usuarioAntiguo = await ModeloUsuario.find( {_id: req.params.id} );
 
   if (await ModeloUsuario.exists( { usuario } ) && usuarioAntiguo[0].usuario !== usuario) { 
@@ -60,12 +74,33 @@ usuarioCtrl.updateUser = async (req, res) => {
 };
 
 usuarioCtrl.deleteUser = async (req, res) => {
-  await ModeloUsuario.findOneAndRemove( { _id: req.params.id } );
-
   if (await ModeloArchivo.exists( {usuarioId: req.params.id} )) {
     console.log('El usuario tenia archivos guardados');
+    const data = await ModeloArchivo.find( {usuarioId: req.params.id } )
+
+    let objects = [];
+
+    for(var e in data) {
+      objects.push({Key: data[e].key});
+    }
+
+    const options = {
+      Bucket: bucket,
+      Delete: {
+        Objects: objects
+      }
+    }
+
+    s3.deleteObjects(options, function(err, data) {
+      if (err) { 
+        console.log(err)
+        res.json({message: 'Ocurrio un error en el programa:'}) 
+      }
+    });
     await ModeloArchivo.deleteMany( {usuarioId: req.params.id} );
   }
+  await ModeloUsuario.findOneAndRemove( { _id: req.params.id } );
+  
   res.json({ message: 'Usuario Eliminado' })
 }
 

@@ -16,7 +16,7 @@ const s3 = new AWS({
 });
 
 archivoCtrl.getArchivo = async (req, res) => {
-  const archivos = await ModeloArchivo.find( {_id: req.body.nombre} );
+  const archivos = await ModeloArchivo.find( {_id: req.body.id} );
   res.json(archivos);
 };
 
@@ -26,13 +26,13 @@ archivoCtrl.getArchivos = async (req, res) => {
 };
 
 archivoCtrl.patchArchivos = async (req, res) => {
-  await ModeloArchivo.findOneAndUpdate( {_id: req.params.id}, req.body.nombreOriginal );
-  req.json( {message: 'Nombre del archivo actualizado'} );
+  await ModeloArchivo.findOneAndUpdate( {usuarioId: req.params.id, key: req.body.key}, {$set: {nombreOriginal: req.body.nombreOriginal}} );
+  res.json( {message: 'Nombre del archivo actualizado'} );
 };
 
 archivoCtrl.abrirArchivo = async (req, res) => {
 
-  const keyName = await ModeloArchivo.find( {nombreOriginal: req.body.nombreOriginal, usuarioId: req.params.id} );
+  const keyName = await ModeloArchivo.find( {key: req.body.key, usuarioId: req.params.id} );
 
   if (keyName.length === 0) { return res.json( {message: 'Archivo no encontrado'} ); }
 
