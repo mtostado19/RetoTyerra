@@ -51,27 +51,27 @@ export default function Usuario() {
           <form onSubmit={() => postUsuario(Nombre, ApellidoPat, ApellidoMat, Correo, NombreUsuario, Contraseña)}>
             <div className="mb-3">
               <label> Nombre </label>
-              <input type="text" id="nombre" value={Nombre} onChange={(e) => {setNombre(e.target.value)}}></input>
+              <input type="text" class="form-control" id="nombre" value={Nombre} onChange={(e) => {setNombre(e.target.value)}}></input>
             </div>
             <div className="mb-3">
               <label> apellidoPat </label>
-              <input type="text" id="apellidoPat" value={ApellidoPat} onChange={(e) => {setApellidoPat(e.target.value)}}></input>
+              <input type="text" class="form-control" id="apellidoPat" value={ApellidoPat} onChange={(e) => {setApellidoPat(e.target.value)}}></input>
             </div>
             <div className="mb-3">
               <label> apellidoMat </label>
-              <input type="text" id="apellidoMat" value={ApellidoMat} onChange={(e) => {setApellidoMat(e.target.value)}}></input>
+              <input type="text" class="form-control" id="apellidoMat" value={ApellidoMat} onChange={(e) => {setApellidoMat(e.target.value)}}></input>
             </div>
             <div className="mb-3">
               <label> correo </label>
-              <input type="text" id="correo" value={Correo} onChange={(e) => {setCorreo(e.target.value)}}></input>
+              <input type="text" class="form-control" id="correo" value={Correo} onChange={(e) => {setCorreo(e.target.value)}}></input>
             </div>
             <div className="mb-3">
               <label> usuario </label>
-              <input type="text" id="usuario" value={NombreUsuario} onChange={(e) => {setnombreUsuario(e.target.value)}}></input>
+              <input type="text" class="form-control" id="usuario" value={NombreUsuario} onChange={(e) => {setnombreUsuario(e.target.value)}}></input>
             </div>
             <div className="mb-3">
               <label> contraseña </label>
-              <input type="text" id="contraseña" value={Contraseña} onChange={(e) => {setContraseña(e.target.value)}}></input>
+              <input type="text" class="form-control" id="contraseña" value={Contraseña} onChange={(e) => {setContraseña(e.target.value)}}></input>
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
           </form>

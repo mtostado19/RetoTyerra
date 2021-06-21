@@ -55,8 +55,6 @@ usuarioCtrl.updateUser = async (req, res) => {
   const { nombre, apellidoPat, apellidoMat, correo, usuario, contraseña } =
     req.body;
 
-  console.log(req.body);
-
   const usuarioAntiguo = await ModeloUsuario.find( {_id: req.params.id} );
 
   if (await ModeloUsuario.exists( { usuario } ) && usuarioAntiguo[0].usuario !== usuario) { 

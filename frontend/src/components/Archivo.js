@@ -33,17 +33,17 @@ export default function Archivo() {
       }
     });
     window.location = '/Archivos';
-  }
+  };
 
   const deleteArchivo = async (key) => {
     console.log(key);
     await axios.delete('http://localhost:4000/api/archivo/', {
       data: {
-        key
+        key,
       }
     });
     window.location = '/Archivos';
-  }
+  };
 
     return (
       <div>
